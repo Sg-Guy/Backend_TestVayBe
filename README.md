@@ -16,6 +16,10 @@ cd Backend_TestVayBe
 ### Etape 2 : Configuration et Lancement
 composer install
 
+cp .env.example .env
+
+(configurer ce fichier .env pour communiquer avec votre base de données)
+
 php artisan migrate 
 
 php artisan serve
@@ -42,6 +46,7 @@ L'API sera disponible sur http://127.0.0.1:8000.
 ## Choix techniques
 
 - Framework : PHP Laravel.
+
 - Validation : Validation stricte des champs obligatoires et des formats de fichiers via un FormRequest.*
 
 - Gestion des erreurs : Reponses claires pour faciliter l'experience utilisateur cote frontend.
