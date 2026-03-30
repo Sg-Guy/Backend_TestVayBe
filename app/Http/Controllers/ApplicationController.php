@@ -4,12 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ApplicationRequest;
 use App\Models\ApplicationModel;
+use Exception;
 use Illuminate\Http\Request;
 
 use function Laravel\Prompts\clear;
 
 class ApplicationController extends Controller
 {
+
+    //Recuperation de toutes les candidatures
+    public function index()
+    {
+        $applications = ApplicationModel::all();
+        return response()->json($applications);
+    }
+
+    // Enregistrement d'une nouvelle candidature
     public function store(ApplicationRequest $request)
     {
 
@@ -41,16 +51,16 @@ class ApplicationController extends Controller
             //J'envisage créer une table role apres//
 
             if ($application->role === 'developer') {
-                $application->score = $this->logiqueCheck($keywords_dev, $application->motivation, $application->portfolio);
+                $application->score = $this->logiqueCheck($keywords_dev, $application->motivation, $application->portfolio, $application->email);
             } elseif ($application->role === 'designer') {
-                $application->score = $this->logiqueCheck($keywords_designer, $application->motivation, $application->portfolio);
+                $application->score = $this->logiqueCheck($keywords_designer, $application->motivation, $application->portfolio, $application->email);
             } else {
                 $application->score = 0; // Si le rôle n'est pas reconnu, on attribue un score de 0
             }
 
             // Création de la candidature en base
             $application->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'Une erreur est survenue lors du traitement de votre candidature. Veuillez réessayer plus tard.'], 500);
         }
 
@@ -66,7 +76,10 @@ class ApplicationController extends Controller
     }
 
 
-    public function logiqueCheck(array $keywords, string $motivation , $portfolio): int
+
+    // Fonction de logique de scoring
+
+    public function logiqueCheck(array $keywords, string $motivation, $portfolio, $email): int
     {
         $foundKeywords = [];
         $score = 10;
@@ -88,6 +101,9 @@ class ApplicationController extends Controller
 
         if ($portfolio != null) {
             $score += 1; // Ajoute 1 point si un portfolio est fourni
+        }
+        if ($email) {
+            $score += 1; // Ajoute 1 point si un email est fourni
         }
 
         return $score;

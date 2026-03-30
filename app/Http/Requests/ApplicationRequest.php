@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class ApplicationRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class ApplicationRequest extends FormRequest
     {
         $rules= [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:applications,email',
+            'email' => 'required|email:rfc,dns|max:255|unique:applications,email',
             'role' => 'required|in:developer,designer',
             'motivation' => 'required|string',
             'portfolio' => 'nullable|url',
@@ -49,11 +51,11 @@ class ApplicationRequest extends FormRequest
 
             'email.max' => 'L\'email ne peut pas dépasser 255 caractères.',
 
-            'email.unique' => 'Vous avez déjà soumis une candidature avec cet email ! Vueillez utiliser une adresse email différente ou contacter le support si vous pensez que c\'est une erreur.',
+            'email.unique' => 'Vous avez déjà soumis une candidature avec cet email ! Veuillez utiliser une adresse email différente ou contacter le support si vous pensez que c\'est une erreur.',
             
             'role.required' => 'Vueillez choisir une option.',
 
-            'role.in' => 'Le rôle doit être soit "developer" soit "designer".',
+            'role.in' => 'Le rôle doit être soit developer soit designer.',
 
             'motivation.required' => 'Veuillez saisir votre message de motivation.',
 
@@ -67,5 +69,17 @@ class ApplicationRequest extends FormRequest
 
             'cv.max' => 'Fichier trop volumineux. Le CV ne doit pas dépasser 2MB.',
         ];
+    }
+
+
+    //Envoie du json en cas d'erreur de validation
+    protected function failedValidation(Validator $validator)
+    {
+        $response = response()->json([
+            'message' => 'Validation échouée.',
+            'errors' => $validator->errors()
+        ], 422);
+
+        throw new ValidationException($validator, $response);
     }
 }

@@ -9,4 +9,12 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
+
+// Endpoints pour les candidatures
+
+// Route pour créer une nouvelle candidature
 Route::post('/applications', [ApplicationController::class, 'store']);
+
+
+// Route pour récupérer toutes les candidatures
+Route::get ('/applications', [ApplicationController::class, 'index']); //->middleware(['auth:sanctum']); 
