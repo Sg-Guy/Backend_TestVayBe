@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('email', 255)->unique(); // Je m'assure que l'utilisateur ne soumet q'une seule candidature avec cet email
             $table->enum('role', ['developer', 'designer']);
-            $table->text('motivation');
+            $table->text('motivation'); 
             $table->text('portfolio')->nullable();
             $table->string('cv');
+            $table->integer('score') ;
             $table->timestamps();
         });
     }

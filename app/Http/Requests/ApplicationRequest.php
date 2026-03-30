@@ -20,36 +20,51 @@ class ApplicationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules= [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:applications,email',
             'role' => 'required|in:developer,designer',
             'motivation' => 'required|string',
-            'portfolio' => 'nullable|string',
+            'portfolio' => 'nullable|url',
             'cv' => 'required|file|mimes:pdf,doc,docx|max:2048', // Limite à 2MB
         ];
+        return $rules ;
     }
 
-    /**
-     * Message d'erreur personnalisés pour les validations.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {        return [
-            'name.required' => 'Vueillez entrer votre nom.',
+    
+    //messages de validation personnalisées
+    public function messages()
+    {
+               
+        return [
+            'name.required' => 'Veuillez entrer votre nom.',
+
             'name.string' => 'Le nom doit être une chaîne de caractères.',
+
             'name.max' => 'Le nom ne peut pas dépasser 255 caractères.',
+
             'email.required' => 'L\'email est requis.',
+
             'email.email' => 'Veuillez entrer une adresse email valide.',
+
             'email.max' => 'L\'email ne peut pas dépasser 255 caractères.',
+
             'email.unique' => 'Vous avez déjà soumis une candidature avec cet email ! Vueillez utiliser une adresse email différente ou contacter le support si vous pensez que c\'est une erreur.',
+            
             'role.required' => 'Vueillez choisir une option.',
+
             'role.in' => 'Le rôle doit être soit "developer" soit "designer".',
-            'motivation.required' => 'Vueillez saisir votre message de motivation.',
+
+            'motivation.required' => 'Veuillez saisir votre message de motivation.',
+
+            'portfolio.url' => 'Veuillez entrer une URL valide.',
+
             'cv.required' => 'Vous devez fournir un CV.',
+
             'cv.file' => 'Le CV doit être un fichier.',
+
             'cv.mimes' => 'Le CV doit être un fichier de type : pdf, doc ou docx.',
+
             'cv.max' => 'Fichier trop volumineux. Le CV ne doit pas dépasser 2MB.',
         ];
     }

@@ -17,5 +17,6 @@ class ApplicationModel extends Model
         'motivation',
         'portfolio',
         'cv',
+        
     ];
 }
