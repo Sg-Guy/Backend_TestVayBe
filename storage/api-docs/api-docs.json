@@ -1,0 +1,246 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TestVayBe API",
+        "description": "Documentation de l'API TestVayBe",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Serveur local"
+        }
+    ],
+    "paths": {
+        "/api/applications": {
+            "get": {
+                "tags": [
+                    "Candidatures"
+                ],
+                "summary": "Récupérer toutes les candidatures",
+                "description": "Permet de récupérer la liste de toutes les candidatures soumises",
+                "operationId": "5bdb0276efb6e85e52a842b69a9c6601",
+                "responses": {
+                    "200": {
+                        "description": "Liste des candidatures récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "SABO Guillaume"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "guillaume@gmail.com"
+                                            },
+                                            "rôle": {
+                                                "type": "string",
+                                                "example": "Développeur"
+                                            },
+                                            "motivation": {
+                                                "type": "string",
+                                                "example": "ma motivation pour ce poste est..."
+                                            },
+                                            "portfolio": {
+                                                "type": "string",
+                                                "example": "https://portfolio.com"
+                                            },
+                                            "cv": {
+                                                "type": "string",
+                                                "example": "cv.pdf"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Authentification requise"
+                    },
+                    "500": {
+                        "description": "Une erreur est survenue lors du traitement de la requête"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Candidatures"
+                ],
+                "summary": "Soumettre une nouvelle candidature",
+                "description": "Permet de soumettre une nouvelle candidature",
+                "operationId": "838ab9ccbecd19fc861d7a1e17c865ba",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "role",
+                                    "motivation",
+                                    "cv"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "SABO Guillaume"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "guillaume@gmail.com"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "Développeur"
+                                    },
+                                    "motivation": {
+                                        "type": "string",
+                                        "example": "ma motivation pour ce poste est..."
+                                    },
+                                    "portfolio": {
+                                        "type": "string",
+                                        "example": "https://portfolio.com"
+                                    },
+                                    "cv": {
+                                        "type": "file",
+                                        "example": "cv.pdf"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Candidature soumise avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Votre candidature a été soumise avec succès. !"
+                                        },
+                                        "application": {
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Données invalides"
+                    },
+                    "401": {
+                        "description": "Authentification requise"
+                    },
+                    "500": {
+                        "description": "Une erreur est survenue lors du traitement de la requête"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Connexion d'un utilisateur",
+                "operationId": "9f6f4aca790a5229fb638e798623c6e0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "adminvaybe@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "admin1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants invalides"
+                    },
+                    "403": {
+                        "description": "Accès interdit"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Candidatures",
+            "description": "Endpoints pour gérer les candidatures"
+        },
+        {
+            "name": "Users",
+            "description": "Endpoints pour la connexion des utilisateurs  (Basic pour l'administration des candidatures)"
+        }
+    ]
+}

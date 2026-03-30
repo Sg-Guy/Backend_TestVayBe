@@ -1,66 +1,49 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Test Technique - Developpeur Full-Stack (Vaybe) : Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce projet constitue l'API REST de l'application de gestion de candidatures pour Vaybe.
 
-## About Laravel
+## Structure du projet
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Ce depot contient l'API developpee avec le framework Laravel.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation et Lancement du Backend
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Etape 1 : Cloner le depot
+git clone https://github.com/Sg-Guy/Backend_TestVayBe
 
-## Learning Laravel
+cd Backend_TestVayBe
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Etape 2 : Configuration et Lancement
+composer install
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+php artisan migrate 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+php artisan serve
 
-## Laravel Sponsors
+L'API sera disponible sur http://127.0.0.1:8000.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Faire les premiers test
+ Cette Api a été documenté avec **swagger** pour faciliter les tests .
+ Vous pouvez donc réalisé un test  ici : http://127.0.0.1:8000/api/documentation sans toutes fois lancerr insomnia ou postman. 
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Fonctionnalites et API
 
-## Contributing
+1. Endpoint POST /api/applications : Permet de soumettre une candidature avec nom, email, role, motivation, portfolio et CV.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Endpoint GET /api/applications : Retourne la liste des candidatures soumises.
 
-## Code of Conduct
+3. Systeme de Scoring : Calcul automatique basé sur la completude du profil (email valide, portfolio renseigne, mots-cles dans la motivation).Pour cette logique , un tableau de mots clés a été foruni de le controller pour chaque post de la candidature. Quand le candidat soumet sa candidature , le système vérifie si chacun des mots de la liste correspondant au poste sont dans le message de motivation et à chaque qu'un mot remplisse cette condition , le score est incréménté de 1. Si le candidat a fourni un portfolio (url valide) , le score augmente de 1. Tout candidat ayant soumis avec succès sa canditure a droit au 1 point lié à la validation de mail puisque cette validation est gérée dans le FormRequest.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Gestion d'erreurs : Les erreurs sont biens gérées dans le FormResquest
 
-## Security Vulnerabilities
+5. Documentation: Cette Api a été documentée avec **swagger** pour faciliter tests. Pour accéder à l'interface swagger , cliquez sur : http://127.0.0.1:8000/api/documentation
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Choix techniques
 
-## License
+- Framework : PHP Laravel.
+- Validation : Validation stricte des champs obligatoires et des formats de fichiers via un FormRequest.*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Gestion des erreurs : Reponses claires pour faciliter l'experience utilisateur cote frontend.
+
+- Scoring : Logique de calcul integree cote backend pour assurer l'integrite des scores.

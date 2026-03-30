@@ -28,7 +28,7 @@ class ApplicationRequest extends FormRequest
             'role' => 'required|in:developer,designer',
             'motivation' => 'required|string',
             'portfolio' => 'nullable|url',
-            'cv' => 'required|file|mimes:pdf,doc,docx|max:2048', // Limite à 2MB
+            'cv' => 'required|file|mimes:pdf|max:2048', // Limite à 2MB
         ];
         return $rules ;
     }
@@ -65,7 +65,7 @@ class ApplicationRequest extends FormRequest
 
             'cv.file' => 'Le CV doit être un fichier.',
 
-            'cv.mimes' => 'Le CV doit être un fichier de type : pdf, doc ou docx.',
+            'cv.mimes' => 'Le CV doit être un fichier de type : pdf.',
 
             'cv.max' => 'Fichier trop volumineux. Le CV ne doit pas dépasser 2MB.',
         ];
