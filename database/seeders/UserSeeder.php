@@ -18,7 +18,17 @@ class UserSeeder extends Seeder
         ['email' => 'admin@vaybe.com'], 
         [
             'name' => 'Administrateur',
-            'password' => Hash::make('admin1234'), 
+            'password' => Hash::make('admin1234'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]
+    );
+    User::updateOrCreate(
+        ['email' => 'employee@vaybe.com'], 
+        [
+            'name' => 'Employé',
+            'password' => Hash::make('employee1234'),
+            'role' => 'employee',
             'email_verified_at' => now(),
         ]
     );

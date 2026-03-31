@@ -10,7 +10,24 @@ use Illuminate\Support\Facades\Route;
 
 
 //login 
+
+Route::prefix("/user")->group(function () {
+
+    Route::post('/login', [UserController::class, 'login']);
+
+    Route::middleware('auth:sanctum')->get('/check', function (Request $request) {
+
+    return response()->json([
+        'authenticated' => true,
+        'user' => $request->user(),
+        'role' => $request->user()->role 
+    ]);
+});
+}); 
 Route::post('/user/login', [UserController::class, 'login']);
+
+
+
 
 // Endpoints pour les candidatures
 Route::prefix("/applications")->group(function () {
@@ -20,5 +37,5 @@ Route::prefix("/applications")->group(function () {
 
 
     // Route pour récupérer toutes les candidatures
-    Route::get('/', [ApplicationController::class, 'index']) ; //->middleware(['auth:sanctum']); 
+    Route::get('/', [ApplicationController::class, 'index'])->middleware(['auth:sanctum']); 
 });

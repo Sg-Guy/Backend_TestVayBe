@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ApplicationModel extends Model
 {
+    
     //
 
     protected $table = 'applications'; // Spécifie le nom de la table associée à ce modèle
@@ -17,6 +18,6 @@ class ApplicationModel extends Model
         'motivation',
         'portfolio',
         'cv',
-        
+
     ];
 }

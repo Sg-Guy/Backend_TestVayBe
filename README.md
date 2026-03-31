@@ -6,6 +6,22 @@ Ce projet constitue l'API REST de l'application de gestion de candidatures pour 
 
 - Ce depot contient l'API developpee avec le framework Laravel.
 
+## Architecture
+app/
+├── Http/
+│   ├── Controllers/
+│   │   └── ApplicationController.php    # Logique de reception des requetes 
+│   ├── Requests/
+│   │   └── ApplicationRequest.php  # Validation des donnees (nom, email ...) 
+├── Models/
+│   └── ApplicationModel.php                  # Definition des champs (nom, role, score)
+├── Services/
+│   └── ScoringService.php               # Logique de calcul du score (Isolee du controller) 
+└── Providers/
+└── OpenApi.php                           # Pour Swagger
+routes/
+└── api.php                              # Definition des endpoints (GET/POST /applications) 
+
 ## Installation et Lancement du Backend
 
 ### Etape 1 : Cloner le depot
@@ -20,7 +36,7 @@ cp .env.example .env
 
 (configurer ce fichier .env pour communiquer avec votre base de données)
 
-php artisan migrate 
+php artisan migrate:fresh --seed      ***Important pour Créer l'admin en base de données***
 
 php artisan serve
 
@@ -28,7 +44,7 @@ L'API sera disponible sur http://127.0.0.1:8000.
 
 ### Faire les premiers test
  Cette Api a été documenté avec **swagger** pour faciliter les tests .
- Vous pouvez donc réalisé un test  ici : http://127.0.0.1:8000/api/documentation sans toutes fois lancerr insomnia ou postman. 
+ Vous pouvez donc réalisé un test  ici : http://127.0.0.1:8000/api/documentation sans toutes fois lancerr insomnia ou postman. Pour utliser les endpoints admin , assurez vous de vous connecter , de récupérer le token et de le mettre dans la partir Authorize sur l'interface swagger. example : Bearer 2|zvA7a6rtByEg2Xd2F0vSSaOOu5njEF1bqMpFhFAE6d5084f4
 
 
 ## Fonctionnalites et API

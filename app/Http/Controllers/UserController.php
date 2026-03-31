@@ -59,7 +59,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Identifiants invalides !'], 401);
         }
 
-        $user->token->delete(); 
+        $user->tokens()->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
